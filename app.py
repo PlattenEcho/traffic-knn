@@ -1,30 +1,39 @@
 # Model clustering
+from flask import Flask, render_template, request
 import pickle
 import numpy as np
 import sklearn
-knn = pickle.load(open("./static/models/model.pkl","rb"))
+knn = pickle.load(open("./static/models/model.pkl", "rb"))
+
+# TES
+
 
 def trafficPrediction(data):
-    data = np.array(data).reshape(1,-1)
+    data = np.array(data).reshape(1, -1)
     # Get the prediction
     result = knn.predict(data)
     return result
 
-from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 # Route untuk halaman utama
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 # route 'form' set as 'form.html'
+
+
 @app.route('/form')
 def form():
     return render_template('form.html')
 
 # Route untuk menangani submit form
+
+
 @app.route('/result', methods=['POST'])
 def result():
     if request.method == 'POST':
@@ -41,6 +50,7 @@ def result():
 
         # Kembalikan response atau tampilkan informasi yang diperlukan
         return f'Day: {day}, Time: {time}, Car Count: {car_count}, Bike Count: {bike_count}, Bus Count: {bus_count}, Truck Count: {truck_count}'
+
 
 if __name__ == '__main__':
     app.run(debug=True)
